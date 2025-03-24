@@ -94,10 +94,16 @@ export default function LoginPageForm() {
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-2 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                  Blockchain-Powered Analytics
+                  Expense Tracking:
                 </h3>
                 <p className="text-cyan-100/70">
-                  Track your crypto assets with real-time blockchain data and advanced analytics.
+                  Auto-sync with UPI, wallets, and bank accounts
+                </p>
+                <p className="text-cyan-100/70">
+                  Manual entry for cash expenses
+                </p>
+                <p className="text-cyan-100/70">
+                  Decentralized transaction records for security
                 </p>
               </div>
             </div>
@@ -108,10 +114,13 @@ export default function LoginPageForm() {
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-2 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-                  Smart Portfolio Management
+                  Monthly Predictions & Reports
                 </h3>
                 <p className="text-purple-100/70">
-                  Optimize your holdings with AI-driven insights and automated rebalancing.
+                  ML-based predictions for future savings
+                </p>
+                <p className="text-purple-100/70">
+                  Visual spending reports (bar, pie charts)
                 </p>
               </div>
             </div>
@@ -122,10 +131,16 @@ export default function LoginPageForm() {
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                  Multi-Chain Integration
+                  Saving Tips & Advice
                 </h3>
                 <p className="text-blue-100/70">
-                  Seamlessly connect with Ethereum, Solana, Polygon, and other leading blockchains.
+                  AI-powered recommendations
+                </p>
+                <p className="text-blue-100/70">
+                  Daily saving challenges or tips
+                </p>
+                <p className="text-blue-100/70">
+                  Goal Tracking with Smart Contracts
                 </p>
               </div>
             </div>

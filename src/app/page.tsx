@@ -219,127 +219,80 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl rounded-xl p-6 border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:border-cyan-900/50">
-                <div className="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 backdrop-blur-md w-14 h-14 rounded-xl flex items-center justify-center mb-4 border border-cyan-500/20 shadow-[0_0_15px_rgba(34,211,238,0.15)]">
-                  <BarChart3 className="h-7 w-7 text-cyan-400" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                  Portfolio Analytics
-                </h3>
-                <p className="text-gray-400">
-                  Track your crypto assets with real-time data and advanced analytics across multiple blockchains.
-                </p>
-                <div className="mt-4">
-                  <Link
-                    href="#"
-                    className="text-cyan-400 font-medium flex items-center hover:text-cyan-300 transition-colors"
-                  >
-                    Learn more <ChevronRight className="h-4 w-4 ml-1" />
-                  </Link>
-                </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl rounded-xl p-6 border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:border-cyan-900/50">
+              <div className="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 backdrop-blur-md w-14 h-14 rounded-xl flex items-center justify-center mb-4 border border-cyan-500/20 shadow-[0_0_15px_rgba(34,211,238,0.15)]">
+                <BarChart3 className="h-7 w-7 text-cyan-400" />
               </div>
-
-              <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl rounded-xl p-6 border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)] hover:border-purple-900/50">
-                <div className="bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-md w-14 h-14 rounded-xl flex items-center justify-center mb-4 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
-                  <Zap className="h-7 w-7 text-purple-400" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-                  DeFi Integration
-                </h3>
-                <p className="text-gray-400">
-                  Access lending, borrowing, staking, and yield farming protocols directly from your dashboard.
-                </p>
-                <div className="mt-4">
-                  <Link
-                    href="#"
-                    className="text-purple-400 font-medium flex items-center hover:text-purple-300 transition-colors"
-                  >
-                    Learn more <ChevronRight className="h-4 w-4 ml-1" />
-                  </Link>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl rounded-xl p-6 border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:border-blue-900/50">
-                <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-md w-14 h-14 rounded-xl flex items-center justify-center mb-4 border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
-                  <Layers className="h-7 w-7 text-blue-400" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                  Multi-Chain Support
-                </h3>
-                <p className="text-gray-400">
-                  Seamlessly interact with Ethereum, Solana, Polygon, and other leading blockchain networks.
-                </p>
-                <div className="mt-4">
-                  <Link
-                    href="#"
-                    className="text-blue-400 font-medium flex items-center hover:text-blue-300 transition-colors"
-                  >
-                    Learn more <ChevronRight className="h-4 w-4 ml-1" />
-                  </Link>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl rounded-xl p-6 border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(239,68,68,0.2)] hover:border-red-900/50">
-                <div className="bg-gradient-to-br from-red-500/20 to-orange-500/20 backdrop-blur-md w-14 h-14 rounded-xl flex items-center justify-center mb-4 border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.15)]">
-                  <ShieldCheck className="h-7 w-7 text-red-400" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
-                  Advanced Security
-                </h3>
-                <p className="text-gray-400">
-                  Your assets are protected with non-custodial technology and advanced encryption protocols.
-                </p>
-                <div className="mt-4">
-                  <Link
-                    href="#"
-                    className="text-red-400 font-medium flex items-center hover:text-red-300 transition-colors"
-                  >
-                    Learn more <ChevronRight className="h-4 w-4 ml-1" />
-                  </Link>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl rounded-xl p-6 border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(234,179,8,0.2)] hover:border-yellow-900/50">
-                <div className="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 backdrop-blur-md w-14 h-14 rounded-xl flex items-center justify-center mb-4 border border-yellow-500/20 shadow-[0_0_15px_rgba(234,179,8,0.15)]">
-                  <Wallet className="h-7 w-7 text-yellow-400" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
-                  Smart Wallet
-                </h3>
-                <p className="text-gray-400">
-                  Connect multiple wallets and manage all your digital assets in one secure interface.
-                </p>
-                <div className="mt-4">
-                  <Link
-                    href="#"
-                    className="text-yellow-400 font-medium flex items-center hover:text-yellow-300 transition-colors"
-                  >
-                    Learn more <ChevronRight className="h-4 w-4 ml-1" />
-                  </Link>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl rounded-xl p-6 border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(20,184,166,0.2)] hover:border-teal-900/50">
-                <div className="bg-gradient-to-br from-teal-500/20 to-green-500/20 backdrop-blur-md w-14 h-14 rounded-xl flex items-center justify-center mb-4 border border-teal-500/20 shadow-[0_0_15px_rgba(20,184,166,0.15)]">
-                  <PieChart className="h-7 w-7 text-teal-400" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-teal-400 to-green-400 bg-clip-text text-transparent">
-                  NFT Dashboard
-                </h3>
-                <p className="text-gray-400">
-                  View, manage, and analyze your NFT collection with detailed metadata and market insights.
-                </p>
-                <div className="mt-4">
-                  <Link
-                    href="#"
-                    className="text-teal-400 font-medium flex items-center hover:text-teal-300 transition-colors"
-                  >
-                    Learn more <ChevronRight className="h-4 w-4 ml-1" />
-                  </Link>
-                </div>
-              </div>
+              <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                Scheduled Transactions
+              </h3>
+              <p className="text-gray-400">
+                Automate recurring payments and expenses for convenience.
+              </p>
             </div>
+            
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl rounded-xl p-6 border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)] hover:border-purple-900/50">
+              <div className="bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-md w-14 h-14 rounded-xl flex items-center justify-center mb-4 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
+                <Zap className="h-7 w-7 text-purple-400" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                Budgets
+              </h3>
+              <p className="text-gray-400">
+                Set, track, and adjust your monthly or weekly spending plans.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl rounded-xl p-6 border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:border-blue-900/50">
+              <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-md w-14 h-14 rounded-xl flex items-center justify-center mb-4 border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
+                <Layers className="h-7 w-7 text-blue-400" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                Charts
+              </h3>
+              <p className="text-gray-400">
+                Visualize your financial data with insightful graphs and reports.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl rounded-xl p-6 border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(239,68,68,0.2)] hover:border-red-900/50">
+              <div className="bg-gradient-to-br from-red-500/20 to-orange-500/20 backdrop-blur-md w-14 h-14 rounded-xl flex items-center justify-center mb-4 border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.15)]">
+                <ShieldCheck className="h-7 w-7 text-red-400" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
+                Calendar
+              </h3>
+              <p className="text-gray-400">
+                Organize and schedule your financial events and reminders.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl rounded-xl p-6 border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(234,179,8,0.2)] hover:border-yellow-900/50">
+              <div className="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 backdrop-blur-md w-14 h-14 rounded-xl flex items-center justify-center mb-4 border border-yellow-500/20 shadow-[0_0_15px_rgba(234,179,8,0.15)]">
+                <Wallet className="h-7 w-7 text-yellow-400" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+                Import/Export
+              </h3>
+              <p className="text-gray-400">
+                Easily upload or download financial data for backup or analysis.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl rounded-xl p-6 border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(20,184,166,0.2)] hover:border-teal-900/50">
+              <div className="bg-gradient-to-br from-teal-500/20 to-green-500/20 backdrop-blur-md w-14 h-14 rounded-xl flex items-center justify-center mb-4 border border-teal-500/20 shadow-[0_0_15px_rgba(20,184,166,0.15)]">
+                <PieChart className="h-7 w-7 text-teal-400" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-teal-400 to-green-400 bg-clip-text text-transparent">
+                Preferences
+              </h3>
+              <p className="text-gray-400">
+                Customize settings for personalized financial management.
+              </p>
+            </div>
+          </div>
+
           </div>
         </section>
 
@@ -526,91 +479,6 @@ export default function Home() {
                 <Button className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white shadow-[0_0_15px_rgba(59,130,246,0.3)]">
                   Contact Sales
                 </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Testimonials */}
-        <section className="py-20 bg-gray-900/50 backdrop-blur-md border-y border-gray-800/50">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-                What Our Users Say
-              </h2>
-              <p className="text-gray-400 max-w-2xl mx-auto">
-                Join thousands of satisfied users who have transformed their crypto experience
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl p-6 rounded-xl border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
-                <div className="flex items-center mb-4">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <svg key={star} className="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="text-gray-400 mb-4">
-                  "Nexus Finance has completely transformed how I manage my crypto portfolio. The multi-chain support
-                  and DeFi integrations are game-changing."
-                </p>
-                <div className="flex items-center">
-                  <div className="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 h-10 w-10 rounded-full flex items-center justify-center mr-3 border border-cyan-500/20">
-                    <span className="text-cyan-400 font-semibold">JD</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-white">John Doe</h4>
-                    <p className="text-sm text-gray-500">Crypto Investor</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl p-6 rounded-xl border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
-                <div className="flex items-center mb-4">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <svg key={star} className="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="text-gray-400 mb-4">
-                  "The analytics tools are incredible. I can track my entire portfolio across multiple chains and see
-                  exactly where my assets are performing best."
-                </p>
-                <div className="flex items-center">
-                  <div className="bg-gradient-to-br from-purple-500/20 to-blue-500/20 h-10 w-10 rounded-full flex items-center justify-center mr-3 border border-purple-500/20">
-                    <span className="text-purple-400 font-semibold">JS</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-white">Jane Smith</h4>
-                    <p className="text-sm text-gray-500">DeFi Enthusiast</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl p-6 rounded-xl border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
-                <div className="flex items-center mb-4">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <svg key={star} className="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="text-gray-400 mb-4">
-                  "As a developer, I appreciate the API access and the security features. It's the perfect platform for
-                  both individual and institutional users."
-                </p>
-                <div className="flex items-center">
-                  <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 h-10 w-10 rounded-full flex items-center justify-center mr-3 border border-blue-500/20">
-                    <span className="text-blue-400 font-semibold">MJ</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-white">Mike Johnson</h4>
-                    <p className="text-sm text-gray-500">Blockchain Developer</p>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
