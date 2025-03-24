@@ -96,9 +96,9 @@ export default function RegisterPage() {
         <div className="flex-grow flex flex-col justify-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
             <span className="bg-gradient-to-r from-purple-400 via-blue-500 to-cyan-600 bg-clip-text text-transparent">
-              Join the Future
+              Smart Financial Management
             </span>
-            <span className="block mt-2">of Digital Finance</span>
+            <span className="block mt-2">for a Secure Future</span>
           </h2>
 
           <div className="space-y-8 mt-10">
@@ -108,10 +108,12 @@ export default function RegisterPage() {
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-2 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-                  Decentralized Ecosystem
+                  Expense Tracking
                 </h3>
                 <p className="text-purple-100/70">
-                  Access DeFi protocols, NFT marketplaces, and Web3 applications in one platform.
+                  * Auto-sync with UPI, wallets, and bank accounts<br/>
+                  * Manual entry for cash expenses<br/>
+                  * Decentralized transaction records for security
                 </p>
               </div>
             </div>
@@ -122,10 +124,11 @@ export default function RegisterPage() {
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                  Advanced Trading Tools
+                  Monthly Predictions & Reports
                 </h3>
                 <p className="text-blue-100/70">
-                  Execute trades with precision using our professional-grade trading interface.
+                  * ML-based predictions for future savings<br/>
+                  * Visual spending reports (bar, pie charts)
                 </p>
               </div>
             </div>
@@ -136,15 +139,18 @@ export default function RegisterPage() {
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-2 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                  Non-Custodial Security
+                  Saving Tips & Advice
                 </h3>
                 <p className="text-cyan-100/70">
-                  Maintain full control of your assets with our secure non-custodial wallet technology.
+                  * AI-powered recommendations<br/>
+                  * Daily saving challenges or tips<br/>
+                  * Goal Tracking with Smart Contracts
                 </p>
               </div>
             </div>
           </div>
         </div>
+
       </div>
 
       {/* Right side - Registration form */}
