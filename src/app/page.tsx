@@ -63,8 +63,7 @@ export default function Home() {
                   <span className="block mt-2">for the Digital Age</span>
                 </h1>
                 <p className="text-xl mb-8 text-gray-400 max-w-lg">
-                  Manage your crypto assets, track investments, and access DeFi protocols with our all-in-one Web3
-                  platform.
+                  Tracks expenses, predicts savings, offers AI tips, and uses smart contracts for goal tracking.
                 </p>
                 <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                   <Link href="/auth/register">
