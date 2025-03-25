@@ -40,7 +40,7 @@ export default function LoginPageForm() {
       }
 
       toast.success("Login successful", {
-        description: "Welcome back to Nexus Finance!",
+        description: "Welcome back to Smart Finance!",
       })
 
       // Redirect to dashboard or the original requested page
@@ -74,7 +74,7 @@ export default function LoginPageForm() {
               <Wallet className="h-5 w-5 text-cyan-300 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             </div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-              NEXUS FINANCE
+              SMART FINANCE
             </h1>
           </div>
         </div>
