@@ -18,7 +18,7 @@ export default async function DashboardPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-12">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-              NEXUS FINANCE
+              SMART FINANCE
             </h1>
             <LogoutButton />
           </div>
