@@ -21,7 +21,7 @@ export default function Home() {
               <Wallet className="h-5 w-5 text-cyan-300 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-              NEXUS FINANCE
+              SMART FINANCE
             </span>
           </div>
           <nav className="hidden md:flex items-center space-x-8">
@@ -300,7 +300,7 @@ export default function Home() {
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-                How Nexus Finance Works
+                How Smart Finance Works
               </h2>
               <p className="text-gray-400 max-w-2xl mx-auto">
                 Get started in minutes and take control of your digital assets
@@ -331,7 +331,7 @@ export default function Home() {
                     Connect Your Assets
                   </h3>
                   <p className="text-gray-400">
-                    Import existing wallets or transfer assets to your new secure Nexus wallet.
+                    Import existing wallets or transfer assets to your new secure Smart wallet.
                   </p>
                 </div>
               </div>
@@ -494,7 +494,7 @@ export default function Home() {
                   <Wallet className="h-4 w-4 text-cyan-300 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
                 </div>
                 <span className="text-lg font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-                  NEXUS FINANCE
+                  Smart FINANCE
                 </span>
               </div>
               <p className="text-gray-400 text-sm">
@@ -567,7 +567,7 @@ export default function Home() {
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">© 2025 Nexus Finance. All rights reserved.</p>
+            <p className="text-gray-400 text-sm">© 2025 Smart Finance. All rights reserved.</p>
             <div className="flex space-x-4 mt-4 md:mt-0">
               <Link href="#" className="text-gray-400 hover:text-white transition duration-200">
                 <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
