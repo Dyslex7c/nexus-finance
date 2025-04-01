@@ -1,5 +1,4 @@
 import { LogoutButton } from "@/components/auth/logout-button"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Bell, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -33,16 +32,6 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
         <p className="text-gray-400 mb-6">
           Track your finances, manage expenses, and plan your budget all in one place.
         </p>
-
-        <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="bg-gray-800/50 border border-gray-700/50">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="expenses">Expenses</TabsTrigger>
-            <TabsTrigger value="income">Income</TabsTrigger>
-            <TabsTrigger value="budgets">Budgets</TabsTrigger>
-            <TabsTrigger value="goals">Goals</TabsTrigger>
-          </TabsList>
-        </Tabs>
       </div>
     </div>
   )
