@@ -10,7 +10,7 @@ import { FinancialInsights } from "@/components/dashboard/financial-insights"
 export const dynamic = "force-dynamic"
 
 export default async function DashboardPage() {
-  // Check if user is authen
+  // Check if user 
   try {
     const user = await getAuthUser()
 
