@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Wallet, BarChart3, ShieldCheck, Hexagon, ChevronRight, CheckCircle, PieChart, Layers, Zap } from "lucide-react"
+import { ConnectButton } from "@rainbow-me/rainbowkit"
 
 export default function Home() {
   return (
@@ -36,6 +37,7 @@ export default function Home() {
             </Link>
           </nav>
           <div className="flex items-center space-x-4">
+            <ConnectButton />
             <Link href="/auth/login">
               <Button variant="ghost" className="text-gray-300 hover:text-white hover:bg-gray-800/70 font-medium">
                 Connect
