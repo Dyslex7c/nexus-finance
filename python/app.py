@@ -35,7 +35,6 @@ def check_expense(user_id):
     for expense in expense_docs:
         if "amount" in expense:
             expenses.append(expense["amount"])
-    
     if income is None or not expenses:
         return jsonify({"error": "Incomplete user data"}), 400
 
@@ -48,10 +47,11 @@ def check_expense(user_id):
 
     # Predict and generate alert
     predicted_expense = model.predict([[income]])[0]
-    if predicted_expense > 0.9 * income:
-        alert = "⚠️ Your expense is NOT in a safe range."
+
+    if sum(expenses) > 0.9 * predicted_expense:
+        alert = "Your expense is NOT in a safe range."
     else:
-        alert = "✅ Your expense is in a safe range."
+        alert = "Your expense is in a safe range."
 
     return jsonify({
         "user_id": user_id,
