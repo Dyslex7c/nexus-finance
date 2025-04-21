@@ -1,6 +1,16 @@
+"use client"
+
+import { useState } from "react"
 import { LogoutButton } from "@/components/auth/logout-button"
-import { Bell, Settings } from "lucide-react"
+import { Bell, Settings, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+
+interface Notification {
+  id: string
+  message: string
+  time: string
+  read: boolean
+}
 
 interface DashboardHeaderProps {
   user: {
@@ -10,6 +20,44 @@ interface DashboardHeaderProps {
 }
 
 export function DashboardHeader({ user }: DashboardHeaderProps) {
+  const [showNotifications, setShowNotifications] = useState(false)
+  const [notifications, setNotifications] = useState<Notification[]>([
+    {
+      id: "1",
+      message: "Your monthly budget report is ready",
+      time: "2 hours ago",
+      read: false
+    },
+    {
+      id: "2",
+      message: "You've reached your savings goal!",
+      time: "Yesterday",
+      read: false
+    },
+    {
+      id: "3",
+      message: "New feature: Expense categorization is now available",
+      time: "3 days ago",
+      read: true
+    }
+  ])
+
+  const unreadCount = notifications.filter(n => !n.read).length
+
+  const toggleNotifications = () => {
+    setShowNotifications(!showNotifications)
+  }
+
+  const markAsRead = (id: string) => {
+    setNotifications(notifications.map(notification => 
+      notification.id === id ? { ...notification, read: true } : notification
+    ))
+  }
+
+  const deleteNotification = (id: string) => {
+    setNotifications(notifications.filter(notification => notification.id !== id))
+  }
+
   return (
     <div className="flex flex-col gap-6 mb-8">
       <div className="flex justify-between items-center">
@@ -17,16 +65,75 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
           SMART FINANCE
         </h1>
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-            <Bell className="h-5 w-5" />
-          </Button>
+          <div className="relative">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="text-gray-400 hover:text-white relative"
+              onClick={toggleNotifications}
+            >
+              <Bell className="h-5 w-5" />
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                  {unreadCount}
+                </span>
+              )}
+            </Button>
+            
+            {showNotifications && (
+              <div className="absolute right-0 mt-2 w-80 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-50">
+                <div className="p-4 border-b border-gray-700 flex justify-between items-center">
+                  <h3 className="font-medium">Notifications</h3>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="text-gray-400 hover:text-white text-xs"
+                    onClick={() => setNotifications(notifications.map(n => ({ ...n, read: true })))}
+                  >
+                    Mark all as read
+                  </Button>
+                </div>
+                <div className="max-h-96 overflow-y-auto">
+                  {notifications.length > 0 ? (
+                    notifications.map(notification => (
+                      <div 
+                        key={notification.id} 
+                        className={`p-4 border-b border-gray-700 hover:bg-gray-700/50 ${!notification.read ? 'bg-gray-700/30' : ''}`}
+                        onClick={() => markAsRead(notification.id)}
+                      >
+                        <div className="flex justify-between">
+                          <p className="text-sm">{notification.message}</p>
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-6 w-6 text-gray-400 hover:text-white -mr-2"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteNotification(notification.id);
+                            }}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        <p className="text-gray-400 text-xs mt-1">{notification.time}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="p-4 text-center text-gray-400 text-sm">
+                      No notifications
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
           <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
             <Settings className="h-5 w-5" />
           </Button>
           <LogoutButton />
         </div>
       </div>
-
+      
       <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl rounded-3xl border border-gray-700/50 p-8">
         <h2 className="text-2xl font-bold mb-2">Welcome, {user.name || user.email}</h2>
         <p className="text-gray-400 mb-6">
@@ -36,4 +143,3 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
     </div>
   )
 }
-

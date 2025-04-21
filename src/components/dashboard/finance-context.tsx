@@ -382,6 +382,90 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     }
   }
 
+    // Add funds to a savings goal
+    // In your finance-context.tsx file
+const addFundsToGoal = async (goalId: string, amount: number) => {
+  try {
+    // First, get the current amount of the goal
+    const goal = savingsGoals.find(g => g.id === goalId);
+    if (!goal) {
+      throw new Error("Savings goal not found");
+    }
+    
+    // Calculate the new total amount
+    const newTotalAmount = goal.currentAmount + amount;
+    
+    // Make the PATCH request to update the goal
+    const response = await fetch(`/api/finance/savings-goal/${goalId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        currentAmount: newTotalAmount
+      }),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to update savings goal');
+    }
+    
+    const data = await response.json();
+    
+    // Update the local state
+    setSavingsGoals(prevGoals => 
+      prevGoals.map(g => g.id === goalId ? data.savingsGoal : g)
+    );
+    
+    return data.savingsGoal;
+  } catch (error) {
+    console.error('Error adding funds to goal:', error);
+    throw error;
+  }
+};
+  
+    // Create a new savings goal
+    const createSavingsGoal = async (name: string, targetAmount: number, targetDate: string) => {
+      try {
+        const newGoal = {
+          name,
+          targetAmount,
+          currentAmount: 0,
+          targetDate,
+        }
+  
+        // Send to API
+        const response = await fetch("/api/finance/savings-goal", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newGoal),
+        })
+  
+        if (!response.ok) {
+          throw new Error("Failed to create savings goal")
+        }
+  
+        const data = await response.json()
+  
+        // Add to local state with the ID from the response
+        setSavingsGoals((prevGoals) => [
+          ...prevGoals,
+          {
+            id: data.savingsGoal._id,
+            name,
+            targetAmount,
+            currentAmount: 0,
+            targetDate,
+          },
+        ])
+      } catch (error) {
+        console.error("Error creating savings goal:", error)
+        throw error
+      }
+    }
+
   const value = {
     monthlyIncome,
     totalBalance,
@@ -398,6 +482,8 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     expenseCategories,
     incomeSources,
     frequencies,
+    addFundsToGoal,
+    createSavingsGoal
   }
 
   return <FinanceContext.Provider value={value}>{children}</FinanceContext.Provider>
