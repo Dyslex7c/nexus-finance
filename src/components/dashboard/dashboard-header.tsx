@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { LogoutButton } from "@/components/auth/logout-button"
 import { Bell, Settings, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -16,31 +16,42 @@ interface DashboardHeaderProps {
   user: {
     email: string
     name?: string
+    id: string
   }
 }
 
 export function DashboardHeader({ user }: DashboardHeaderProps) {
   const [showNotifications, setShowNotifications] = useState(false)
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: "1",
-      message: "Your monthly budget report is ready",
-      time: "2 hours ago",
-      read: false
-    },
-    {
-      id: "2",
-      message: "You've reached your savings goal!",
-      time: "Yesterday",
-      read: false
-    },
-    {
-      id: "3",
-      message: "New feature: Expense categorization is now available",
-      time: "3 days ago",
-      read: true
-    }
-  ])
+  const [notifications, setNotifications] = useState<Notification[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch(`https://smart-finance-3zxn.onrender.com/check-expense/${user.id}`);
+        const data = await response.json();
+        
+        if (data) {
+          // Create a notification based on the API response
+          const newNotification = {
+            id: Date.now().toString(),
+            message: data.alert,
+            time: "Just now",
+            read: false
+          };
+          
+          // Add this new notification to our existing ones
+          setNotifications(prev => [newNotification, ...prev]);
+        }
+      } catch (error) {
+        console.error("Error fetching expense notification:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNotifications();
+  }, [user.id]);
 
   const unreadCount = notifications.filter(n => !n.read).length
 
@@ -94,7 +105,11 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                   </Button>
                 </div>
                 <div className="max-h-96 overflow-y-auto">
-                  {notifications.length > 0 ? (
+                  {loading ? (
+                    <div className="p-4 text-center text-gray-400 text-sm">
+                      Loading notifications...
+                    </div>
+                  ) : notifications.length > 0 ? (
                     notifications.map(notification => (
                       <div 
                         key={notification.id} 

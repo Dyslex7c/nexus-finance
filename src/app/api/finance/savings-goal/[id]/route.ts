@@ -58,6 +58,7 @@ export async function PATCH(request: NextRequest) {
 
     const url = new URL(request.url)
     const id = url.pathname.split("/").pop()
+    console.log(id);
     
     const data = await request.json()
 

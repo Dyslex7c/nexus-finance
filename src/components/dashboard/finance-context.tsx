@@ -82,6 +82,9 @@ interface FinanceContextType {
   expenseCategories: { value: ExpenseCategory; label: string }[]
   incomeSources: { value: IncomeSource; label: string }[]
   frequencies: { value: Frequency; label: string }[]
+
+  addFundsToGoal: (goalId: string, amount: number) => Promise<void>
+  createSavingsGoal: (name: string, targetAmount: number, targetDate: string) => Promise<void>
 }
 
 // Create the context
@@ -384,45 +387,48 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
     // Add funds to a savings goal
     // In your finance-context.tsx file
-const addFundsToGoal = async (goalId: string, amount: number) => {
-  try {
-    // First, get the current amount of the goal
-    const goal = savingsGoals.find(g => g.id === goalId);
-    if (!goal) {
-      throw new Error("Savings goal not found");
-    }
-    
-    // Calculate the new total amount
-    const newTotalAmount = goal.currentAmount + amount;
-    
-    // Make the PATCH request to update the goal
-    const response = await fetch(`/api/finance/savings-goal/${goalId}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        currentAmount: newTotalAmount
-      }),
-    });
-    
-    if (!response.ok) {
-      throw new Error('Failed to update savings goal');
-    }
-    
-    const data = await response.json();
-    
-    // Update the local state
-    setSavingsGoals(prevGoals => 
-      prevGoals.map(g => g.id === goalId ? data.savingsGoal : g)
-    );
-    
-    return data.savingsGoal;
-  } catch (error) {
-    console.error('Error adding funds to goal:', error);
-    throw error;
-  }
-};
+    const addFundsToGoal = async (goalId: string, amount: number) => {
+      try {
+        // Find the goal
+        const goal = savingsGoals.find(g => g.id === goalId);
+        if (!goal) {
+          throw new Error("Savings goal not found");
+        }
+        
+        // Calculate the new total amount
+        const newTotalAmount = goal.currentAmount + amount;
+        
+        // Make the API request
+        const response = await fetch(`/api/finance/savings-goal/${goalId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            currentAmount: newTotalAmount
+          }),
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to update savings goal');
+        }
+        
+        const data = await response.json();
+        
+        // Update the local state with proper normalization
+        setSavingsGoals(prevGoals => 
+          prevGoals.map(g => g.id === goalId ? {
+            ...g,                           // Keep existing goal properties
+            currentAmount: newTotalAmount,  // Update the current amount
+          } : g)
+        );
+        
+        return data.savingsGoal;
+      } catch (error) {
+        console.error('Error adding funds to goal:', error);
+        throw error;
+      }
+    };
   
     // Create a new savings goal
     const createSavingsGoal = async (name: string, targetAmount: number, targetDate: string) => {

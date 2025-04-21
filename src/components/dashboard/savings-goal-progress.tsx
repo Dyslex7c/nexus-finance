@@ -16,7 +16,8 @@ export function SavingsGoalProgress() {
   const [addFundsDialogOpen, setAddFundsDialogOpen] = useState(false)
   const [createGoalDialogOpen, setCreateGoalDialogOpen] = useState(false)
   const [selectedGoal, setSelectedGoal] = useState<{ id: string; name: string } | null>(null)
-
+  console.log(selectedGoal?.id);
+  
   // Handler for opening the add funds dialog
   const handleOpenAddFundsDialog = (goalId: string, goalName: string) => {
     setSelectedGoal({ id: goalId, name: goalName })
