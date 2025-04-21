@@ -6,6 +6,7 @@ import { OverviewCards } from "@/components/dashboard/overview-cards"
 import { FinanceManager } from "@/components/dashboard/finance-manager"
 import { TransactionHistory } from "@/components/dashboard/transaction-history"
 import { FinancialInsights } from "@/components/dashboard/financial-insights"
+import { DashboardClientWrapper } from "./DashboardClientWrapper"
 
 export const dynamic = "force-dynamic"
 
@@ -20,6 +21,7 @@ export default async function DashboardPage() {
 
     return (
       <FinanceProvider>
+        <DashboardClientWrapper>
         <div className="min-h-screen bg-[#050B18] text-white">
           <div className="max-w-7xl mx-auto p-8">
             <DashboardHeader user={user} />
@@ -41,6 +43,7 @@ export default async function DashboardPage() {
             </div>
           </div>
         </div>
+        </DashboardClientWrapper>
       </FinanceProvider>
     )
   } catch (error) {
