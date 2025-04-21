@@ -1,10 +1,12 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 from pymongo import MongoClient
 from sklearn.linear_model import LinearRegression
 import joblib
 import certifi
 
 app = Flask(__name__)
+CORS(app)
 
 # MongoDB connection with certifi for SSL verification
 client = MongoClient("mongodb+srv://rit007:HInvB6lzobHltSSE@dulcet.a62sz.mongodb.net/?retryWrites=true&w=majority&appName=dulcet", tlsCAFile=certifi.where())
