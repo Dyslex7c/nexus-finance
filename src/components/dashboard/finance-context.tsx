@@ -387,48 +387,70 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
     // Add funds to a savings goal
     // In your finance-context.tsx file
-    const addFundsToGoal = async (goalId: string, amount: number) => {
-      try {
-        // Find the goal
-        const goal = savingsGoals.find(g => g.id === goalId);
-        if (!goal) {
-          throw new Error("Savings goal not found");
-        }
-        
-        // Calculate the new total amount
-        const newTotalAmount = goal.currentAmount + amount;
-        
-        // Make the API request
-        const response = await fetch(`/api/finance/savings-goal/${goalId}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            currentAmount: newTotalAmount
-          }),
-        });
-        
-        if (!response.ok) {
-          throw new Error('Failed to update savings goal');
-        }
-        
-        const data = await response.json();
-        
-        // Update the local state with proper normalization
-        setSavingsGoals(prevGoals => 
-          prevGoals.map(g => g.id === goalId ? {
-            ...g,                           // Keep existing goal properties
-            currentAmount: newTotalAmount,  // Update the current amount
-          } : g)
-        );
-        
-        return data.savingsGoal;
-      } catch (error) {
-        console.error('Error adding funds to goal:', error);
-        throw error;
-      }
-    };
+    // Add funds to a savings goal
+const addFundsToGoal = async (goalId: string, amount: number) => {
+  try {
+    // Find the goal
+    const goal = savingsGoals.find(g => g.id === goalId);
+    if (!goal) {
+      throw new Error("Savings goal not found");
+    }
+    
+    // Make sure there are enough savings available
+    if (amount > savings) {
+      throw new Error("Insufficient funds in savings");
+    }
+    
+    // Calculate the new total amount for the goal
+    const newTotalAmount = goal.currentAmount + amount;
+    
+    // Make the API request to update the savings goal
+    const goalResponse = await fetch(`/api/finance/savings-goal/${goalId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        currentAmount: newTotalAmount
+      }),
+    });
+    
+    if (!goalResponse.ok) {
+      throw new Error('Failed to update savings goal');
+    }
+    
+    // Create an expense for the savings allocation
+    // This will automatically update the savings calculation in the summary
+    await addExpense({
+      amount: amount,
+      category: "other" as ExpenseCategory, // You may need to add "savings" to your ExpenseCategory type
+      description: `Allocation to ${goal.name} savings goal`,
+    });
+    
+    // Update the local savings state directly since we know the new value
+    const newSavingsAmount = savings - amount;
+    setSavings(newSavingsAmount);
+    
+    // If totalBalance is directly linked to savings in your app, update it too
+    setTotalBalance(prev => 
+      // Only update if it was previously tied to savings
+      prev === savings ? newSavingsAmount : prev
+    );
+    
+    // Update the goals in local state
+    setSavingsGoals(prevGoals => 
+      prevGoals.map(g => g.id === goalId ? {
+        ...g,
+        currentAmount: newTotalAmount,
+      } : g)
+    );
+    
+    return await goalResponse.json();
+  } catch (error) {
+    console.error('Error adding funds to goal:', error);
+    throw error;
+  }
+};
   
     // Create a new savings goal
     const createSavingsGoal = async (name: string, targetAmount: number, targetDate: string) => {
