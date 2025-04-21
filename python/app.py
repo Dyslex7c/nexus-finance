@@ -48,7 +48,7 @@ def check_expense(user_id):
     # Predict and generate alert
     predicted_expense = model.predict([[income]])[0]
 
-    if sum(expenses) > 0.9 * predicted_expense:
+    if sum(expenses) > 0.9 * income:
         alert = "Your expense is NOT in a safe range."
     else:
         alert = "Your expense is in a safe range."
