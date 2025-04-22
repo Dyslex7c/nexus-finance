@@ -8,7 +8,6 @@ import { Wallet, BarChart3, ShieldCheck, Hexagon, CheckCircle, PieChart, Layers,
 import { ConnectButton } from "@rainbow-me/rainbowkit"
 import { Wrapper } from "./Wrapper"
 
-// Animated components
 const MotionLink = motion(Link)
 const MotionButton = motion(Button)
 
