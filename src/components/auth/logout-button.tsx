@@ -8,6 +8,7 @@ import { toast } from "sonner"
 interface LogoutButtonProps {
   redirectTo?: string
   children?: React.ReactNode
+  className?: string
 }
 
 export function LogoutButton({ children = "Logout", redirectTo = "/auth/login", ...props }: LogoutButtonProps) {

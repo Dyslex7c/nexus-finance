@@ -151,7 +151,7 @@ export function SavingsGoalProgress() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="w-full border-gray-700 hover:bg-gray-700 hover:text-white"
+                    className="w-full border-gray-700 hover:bg-gray-700 hover:text-white text-black"
                     onClick={() => handleOpenAddFundsDialog(goal.id, goal.name)}
                   >
                     <PlusCircle className="mr-2 h-4 w-4" /> Add Funds

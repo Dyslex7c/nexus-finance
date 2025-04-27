@@ -216,12 +216,16 @@ export function DashboardSidebar({ user }: SidebarProps) {
 
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="mt-2">
-                <div className="w-full justify-start rounded-md px-3 py-2 text-sm font-medium text-gray-400 hover:bg-gray-800/50 hover:text-white transition-all">
-                  <LogoutButton />
-                </div>
+              <div className="mt-2">
+                  <LogoutButton
+                    className={cn(
+                      "w-full justify-start rounded-md px-3 py-2 text-sm font-medium transition-all",
+                      "text-gray-400 hover:bg-gray-800/50 hover:text-white",
+                    )}
+                  >
                     <LogOut className="mr-3 h-5 w-5 text-gray-500 group-hover:text-gray-300" />
                     {!collapsed && "Logout"}
+                  </LogoutButton>
                 </div>
               </TooltipTrigger>
               {collapsed && <TooltipContent side="right">Logout</TooltipContent>}

@@ -80,7 +80,7 @@ export function AddFundsDialog({ isOpen, onClose, goalId, goalName, onAddFunds }
           <Button
             variant="outline"
             onClick={onClose}
-            className="border-gray-700 hover:bg-gray-700"
+            className="border-gray-700 hover:bg-gray-700 text-red-600"
             disabled={isSubmitting}
           >
             Cancel

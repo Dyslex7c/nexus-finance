@@ -161,19 +161,19 @@ export function NotificationsList() {
       <CardContent>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="bg-gray-800 w-full justify-start mb-4">
-            <TabsTrigger value="all" className="data-[state=active]:bg-cyan-900/50 data-[state=active]:text-white">
+            <TabsTrigger value="all" className="data-[state=active]:bg-white text-white data-[state=active]:text-white">
               All
             </TabsTrigger>
-            <TabsTrigger value="unread" className="data-[state=active]:bg-cyan-900/50 data-[state=active]:text-white">
+            <TabsTrigger value="unread" className="data-[state=active]:bg-white text-white data-[state=active]:text-white">
               Unread
             </TabsTrigger>
-            <TabsTrigger value="alert" className="data-[state=active]:bg-cyan-900/50 data-[state=active]:text-white">
+            <TabsTrigger value="alert" className="data-[state=active]:bg-white text-white data-[state=active]:text-white">
               Alerts
             </TabsTrigger>
-            <TabsTrigger value="payment" className="data-[state=active]:bg-cyan-900/50 data-[state=active]:text-white">
+            <TabsTrigger value="payment" className="data-[state=active]:bg-white text-white data-[state=active]:text-white">
               Payments
             </TabsTrigger>
-            <TabsTrigger value="system" className="data-[state=active]:bg-cyan-900/50 data-[state=active]:text-white">
+            <TabsTrigger value="system" className="data-[state=active]:bg-white text-white data-[state=active]:text-white">
               System
             </TabsTrigger>
           </TabsList>

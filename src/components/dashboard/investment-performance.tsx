@@ -124,19 +124,19 @@ export function InvestmentPerformance() {
           <CardTitle className="text-lg font-medium text-white">Investment Performance</CardTitle>
           <Tabs value={timeframe} onValueChange={setTimeframe} className="w-auto">
             <TabsList className="bg-gray-800">
-              <TabsTrigger value="1W" className="data-[state=active]:bg-cyan-900/50 data-[state=active]:text-white">
+              <TabsTrigger value="1W" className="data-[state=active]:bg-white text-white data-[state=active]:text-white">
                 1W
               </TabsTrigger>
-              <TabsTrigger value="1M" className="data-[state=active]:bg-cyan-900/50 data-[state=active]:text-white">
+              <TabsTrigger value="1M" className="data-[state=active]:bg-white text-white data-[state=active]:text-white">
                 1M
               </TabsTrigger>
-              <TabsTrigger value="3M" className="data-[state=active]:bg-cyan-900/50 data-[state=active]:text-white">
+              <TabsTrigger value="3M" className="data-[state=active]:bg-white text-white data-[state=active]:text-white">
                 3M
               </TabsTrigger>
-              <TabsTrigger value="1Y" className="data-[state=active]:bg-cyan-900/50 data-[state=active]:text-white">
+              <TabsTrigger value="1Y" className="data-[state=active]:bg-white text-white data-[state=active]:text-white">
                 1Y
               </TabsTrigger>
-              <TabsTrigger value="ALL" className="data-[state=active]:bg-cyan-900/50 data-[state=active]:text-white">
+              <TabsTrigger value="ALL" className="data-[state=active]:bg-white text-white data-[state=active]:text-white">
                 ALL
               </TabsTrigger>
             </TabsList>
@@ -159,19 +159,19 @@ export function InvestmentPerformance() {
                   type="monotone"
                   dataKey="value"
                   name="Portfolio"
-                  stroke="#06B6D4"
+                  stroke="#00b050"
                   strokeWidth={2}
                   dot={false}
-                  activeDot={{ r: 6, fill: "#06B6D4" }}
+                  activeDot={{ r: 6, fill: "#00b050" }}
                 />
                 <Line
                   type="monotone"
                   dataKey="benchmark"
                   name="Benchmark"
-                  stroke="#A855F7"
+                  stroke="#ff0000"
                   strokeWidth={2}
                   dot={false}
-                  activeDot={{ r: 6, fill: "#A855F7" }}
+                  activeDot={{ r: 6, fill: "#ff0000" }}
                 />
               </LineChart>
             </ResponsiveContainer>

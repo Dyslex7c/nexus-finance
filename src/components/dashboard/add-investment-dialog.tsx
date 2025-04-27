@@ -141,13 +141,13 @@ export function AddInvestmentDialog({ open, onOpenChange }: AddInvestmentDialogP
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
                 <SelectContent className="bg-gray-800 border-gray-700">
-                  <SelectItem value="stock">Stock</SelectItem>
-                  <SelectItem value="etf">ETF</SelectItem>
-                  <SelectItem value="mutual_fund">Mutual Fund</SelectItem>
-                  <SelectItem value="bond">Bond</SelectItem>
-                  <SelectItem value="crypto">Cryptocurrency</SelectItem>
-                  <SelectItem value="real_estate">Real Estate</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
+                  <SelectItem className="text-gray-400" value="stock">Stock</SelectItem>
+                  <SelectItem className="text-gray-400" value="etf">ETF</SelectItem>
+                  <SelectItem className="text-gray-400" value="mutual_fund">Mutual Fund</SelectItem>
+                  <SelectItem className="text-gray-400" value="bond">Bond</SelectItem>
+                  <SelectItem className="text-gray-400" value="crypto">Cryptocurrency</SelectItem>
+                  <SelectItem className="text-gray-400" value="real_estate">Real Estate</SelectItem>
+                  <SelectItem className="text-gray-400" value="other">Other</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -211,7 +211,7 @@ export function AddInvestmentDialog({ open, onOpenChange }: AddInvestmentDialogP
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="border-gray-700 text-gray-300 hover:bg-gray-800"
+              className="border-gray-700 text-red-600 hover:bg-gray-800"
             >
               Cancel
             </Button>

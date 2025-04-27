@@ -147,7 +147,7 @@ export function CreateGoalDialog({ open, onOpenChange, existingGoal = null }: Cr
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="border-gray-700 text-gray-300 hover:bg-gray-800"
+              className="border-gray-700 text-red-600 hover:bg-gray-800"
               disabled={isSubmitting}
             >
               Cancel

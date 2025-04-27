@@ -76,9 +76,9 @@ export function SavingsGrowthChart() {
             <SelectValue placeholder="Select time range" />
           </SelectTrigger>
           <SelectContent className="bg-gray-800 border-gray-700">
-            <SelectItem value="3months">Last 3 Months</SelectItem>
-            <SelectItem value="6months">Last 6 Months</SelectItem>
-            <SelectItem value="12months">Last 12 Months</SelectItem>
+            <SelectItem className="text-gray-400" value="3months">Last 3 Months</SelectItem>
+            <SelectItem className="text-gray-400" value="6months">Last 6 Months</SelectItem>
+            <SelectItem className="text-gray-400" value="12months">Last 12 Months</SelectItem>
           </SelectContent>
         </Select>
       </CardHeader>

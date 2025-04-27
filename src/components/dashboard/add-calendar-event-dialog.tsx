@@ -166,10 +166,10 @@ export function AddCalendarEventDialog({ open, onOpenChange, selectedDate }: Add
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
                 <SelectContent className="bg-gray-800 border-gray-700">
-                  <SelectItem value="income">Income</SelectItem>
-                  <SelectItem value="expense">Expense</SelectItem>
-                  <SelectItem value="bill">Bill</SelectItem>
-                  <SelectItem value="reminder">Reminder</SelectItem>
+                  <SelectItem className="text-gray-400" value="income">Income</SelectItem>
+                  <SelectItem className="text-gray-400" value="expense">Expense</SelectItem>
+                  <SelectItem className="text-gray-400" value="bill">Bill</SelectItem>
+                  <SelectItem className="text-gray-400" value="reminder">Reminder</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -180,15 +180,15 @@ export function AddCalendarEventDialog({ open, onOpenChange, selectedDate }: Add
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
                 <SelectContent className="bg-gray-800 border-gray-700">
-                  <SelectItem value="Housing">Housing</SelectItem>
-                  <SelectItem value="Utilities">Utilities</SelectItem>
-                  <SelectItem value="Food">Food</SelectItem>
-                  <SelectItem value="Transportation">Transportation</SelectItem>
-                  <SelectItem value="Healthcare">Healthcare</SelectItem>
-                  <SelectItem value="Insurance">Insurance</SelectItem>
-                  <SelectItem value="Salary">Salary</SelectItem>
-                  <SelectItem value="Investment">Investment</SelectItem>
-                  <SelectItem value="Other">Other</SelectItem>
+                  <SelectItem className="text-gray-400" value="Housing">Housing</SelectItem>
+                  <SelectItem className="text-gray-400" value="Utilities">Utilities</SelectItem>
+                  <SelectItem className="text-gray-400" value="Food">Food</SelectItem>
+                  <SelectItem className="text-gray-400" value="Transportation">Transportation</SelectItem>
+                  <SelectItem className="text-gray-400" value="Healthcare">Healthcare</SelectItem>
+                  <SelectItem className="text-gray-400" value="Insurance">Insurance</SelectItem>
+                  <SelectItem className="text-gray-400" value="Salary">Salary</SelectItem>
+                  <SelectItem className="text-gray-400" value="Investment">Investment</SelectItem>
+                  <SelectItem className="text-gray-400" value="Other">Other</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -226,7 +226,7 @@ export function AddCalendarEventDialog({ open, onOpenChange, selectedDate }: Add
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="border-gray-700 text-gray-300 hover:bg-gray-800"
+              className="border-gray-700 text-red-600 hover:bg-gray-800"
             >
               Cancel
             </Button>

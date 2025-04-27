@@ -113,13 +113,13 @@ export function WalletActivity() {
           <CardTitle className="text-lg font-medium text-white">Wallet Activity</CardTitle>
           <Tabs value={timeframe} onValueChange={setTimeframe} className="w-auto">
             <TabsList className="bg-gray-800">
-              <TabsTrigger value="1W" className="data-[state=active]:bg-cyan-900/50 data-[state=active]:text-white">
+              <TabsTrigger value="1W" className="text-white data-[state=active]:bg-white">
                 1W
               </TabsTrigger>
-              <TabsTrigger value="1M" className="data-[state=active]:bg-cyan-900/50 data-[state=active]:text-white">
+              <TabsTrigger value="1M" className="text-white data-[state=active]:bg-white">
                 1M
               </TabsTrigger>
-              <TabsTrigger value="3M" className="data-[state=active]:bg-cyan-900/50 data-[state=active]:text-white">
+              <TabsTrigger value="3M" className="text-white data-[state=active]:bg-white">
                 3M
               </TabsTrigger>
             </TabsList>
