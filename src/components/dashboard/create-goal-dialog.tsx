@@ -1,171 +1,162 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { toast } from "sonner"
 
-interface CreateGoalDialogProps {
-  isOpen: boolean
-  onClose: () => void
-  onCreateGoal: (name: string, targetAmount: number, targetDate: string) => Promise<void>
+interface SavingsGoal {
+  _id: string
+  name: string
+  targetAmount: number
+  currentAmount: number
+  targetDate: string
 }
 
-export function CreateGoalDialog({ isOpen, onClose, onCreateGoal }: CreateGoalDialogProps) {
-  const [name, setName] = useState<string>("")
-  const [targetAmount, setTargetAmount] = useState<string>("")
-  const [targetDate, setTargetDate] = useState<string>("")
-  const [errors, setErrors] = useState<{
-    name?: string
-    targetAmount?: string
-    targetDate?: string
-  }>({})
+interface CreateGoalDialogProps {
+  open: boolean
+  onOpenChange: (open: boolean, refresh?: boolean) => void
+  existingGoal?: SavingsGoal | null
+}
+
+export function CreateGoalDialog({ open, onOpenChange, existingGoal = null }: CreateGoalDialogProps) {
+  const [name, setName] = useState(existingGoal?.name || "")
+  const [targetAmount, setTargetAmount] = useState(existingGoal?.targetAmount?.toString() || "")
+  const [currentAmount, setCurrentAmount] = useState(existingGoal?.currentAmount?.toString() || "0")
+  const [targetDate, setTargetDate] = useState(
+    existingGoal?.targetDate ? new Date(existingGoal.targetDate).toISOString().split("T")[0] : "",
+  )
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const validateForm = () => {
-    const newErrors: {
-      name?: string
-      targetAmount?: string
-      targetDate?: string
-    } = {}
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
 
-    if (!name.trim()) {
-      newErrors.name = "Goal name is required"
+    if (!name || !targetAmount || !targetDate) {
+      toast.error("Please fill in all required fields")
+      return
     }
 
-    const numTarget = Number.parseFloat(targetAmount)
-    if (isNaN(numTarget) || numTarget <= 0) {
-      newErrors.targetAmount = "Please enter a valid target amount greater than 0"
-    }
-
-    if (!targetDate) {
-      newErrors.targetDate = "Target date is required"
-    } else {
-      const selectedDate = new Date(targetDate)
-      const today = new Date()
-      if (selectedDate <= today) {
-        newErrors.targetDate = "Target date must be in the future"
-      }
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = async () => {
-    if (validateForm()) {
+    try {
       setIsSubmitting(true)
-      try {
-        await onCreateGoal(name, Number.parseFloat(targetAmount), targetDate)
-        resetForm()
-        onClose()
-      } catch (error) {
-        console.error("Error creating goal:", error)
-        setErrors({ ...errors, name: "Failed to create goal. Please try again." })
-      } finally {
-        setIsSubmitting(false)
-      }
-    }
-  }
 
-  const resetForm = () => {
-    setName("")
-    setTargetAmount("")
-    setTargetDate("")
-    setErrors({})
+      const goalData = {
+        name,
+        targetAmount: Number.parseFloat(targetAmount),
+        currentAmount: Number.parseFloat(currentAmount || "0"),
+        targetDate,
+      }
+
+      const url = existingGoal ? `/api/finance/savings-goal/${existingGoal._id}` : "/api/finance/savings-goal"
+
+      const method = existingGoal ? "PATCH" : "POST"
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(goalData),
+      })
+
+      if (!response.ok) {
+        throw new Error(`Failed to ${existingGoal ? "update" : "create"} savings goal`)
+      }
+
+      toast.success(`Savings goal ${existingGoal ? "updated" : "created"} successfully`)
+      onOpenChange(false, true) // Close dialog and refresh data
+
+      // Reset form
+      if (!existingGoal) {
+        setName("")
+        setTargetAmount("")
+        setCurrentAmount("0")
+        setTargetDate("")
+      }
+    } catch (error) {
+      console.error(`Error ${existingGoal ? "updating" : "creating"} savings goal:`, error)
+      toast.error(`Failed to ${existingGoal ? "update" : "create"} savings goal`)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
-    <Dialog
-      open={isOpen}
-      onOpenChange={(open) => {
-        if (!open) {
-          resetForm()
-          onClose()
-        }
-      }}
-    >
-      <DialogContent className="bg-gray-800 border-gray-700 text-white">
+    <Dialog open={open} onOpenChange={(open) => onOpenChange(open)}>
+      <DialogContent className="bg-gray-900 text-white border-gray-800 sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create New Savings Goal</DialogTitle>
-          <DialogDescription className="text-gray-400">
-            Set up a new savings goal to track your progress.
-          </DialogDescription>
+          <DialogTitle>{existingGoal ? "Edit Savings Goal" : "Create New Savings Goal"}</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4 py-4">
+        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           <div className="space-y-2">
             <Label htmlFor="name">Goal Name</Label>
             <Input
               id="name"
               value={name}
-              onChange={(e) => {
-                setName(e.target.value)
-                setErrors({ ...errors, name: undefined })
-              }}
-              placeholder="e.g., Vacation, New Car"
-              className="bg-gray-700 border-gray-600 text-white"
+              onChange={(e) => setName(e.target.value)}
+              placeholder="e.g., Emergency Fund"
+              className="bg-gray-800 border-gray-700 text-white"
+              required
             />
-            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
           </div>
-
           <div className="space-y-2">
             <Label htmlFor="targetAmount">Target Amount ($)</Label>
             <Input
               id="targetAmount"
               type="number"
-              min="0.01"
+              min="0"
               step="0.01"
               value={targetAmount}
-              onChange={(e) => {
-                setTargetAmount(e.target.value)
-                setErrors({ ...errors, targetAmount: undefined })
-              }}
-              placeholder="0.00"
-              className="bg-gray-700 border-gray-600 text-white"
+              onChange={(e) => setTargetAmount(e.target.value)}
+              placeholder="e.g., 10000"
+              className="bg-gray-800 border-gray-700 text-white"
+              required
             />
-            {errors.targetAmount && <p className="text-red-500 text-sm">{errors.targetAmount}</p>}
           </div>
-
+          {existingGoal && (
+            <div className="space-y-2">
+              <Label htmlFor="currentAmount">Current Amount ($)</Label>
+              <Input
+                id="currentAmount"
+                type="number"
+                min="0"
+                step="0.01"
+                value={currentAmount}
+                onChange={(e) => setCurrentAmount(e.target.value)}
+                placeholder="e.g., 2500"
+                className="bg-gray-800 border-gray-700 text-white"
+              />
+            </div>
+          )}
           <div className="space-y-2">
             <Label htmlFor="targetDate">Target Date</Label>
             <Input
               id="targetDate"
               type="date"
               value={targetDate}
-              onChange={(e) => {
-                setTargetDate(e.target.value)
-                setErrors({ ...errors, targetDate: undefined })
-              }}
-              className="bg-gray-700 border-gray-600 text-white"
+              onChange={(e) => setTargetDate(e.target.value)}
+              className="bg-gray-800 border-gray-700 text-white"
+              required
             />
-            {errors.targetDate && <p className="text-red-500 text-sm">{errors.targetDate}</p>}
           </div>
-        </div>
-        <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={onClose}
-            className="border-gray-700 hover:bg-gray-700"
-            disabled={isSubmitting}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleSubmit}
-            className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Creating..." : "Create Goal"}
-          </Button>
-        </DialogFooter>
+          <DialogFooter className="mt-6">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              className="border-gray-700 text-gray-300 hover:bg-gray-800"
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" className="bg-cyan-600 hover:bg-cyan-700 text-white" disabled={isSubmitting}>
+              {isSubmitting ? "Saving..." : existingGoal ? "Update Goal" : "Create Goal"}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   )

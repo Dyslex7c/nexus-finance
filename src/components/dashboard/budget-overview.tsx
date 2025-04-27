@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { useFinance } from "./finance-context"
 import { Progress } from "@/components/ui/progress"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -7,34 +8,56 @@ import { AlertTriangle } from "lucide-react"
 
 export function BudgetOverview() {
   const { monthlyIncome, expensesByCategory, expenseCategories } = useFinance()
+  const [budgetAllocations, setBudgetAllocations] = useState({})
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  // Define budget allocations as percentages of income
-  // In a real app, these would be user-defined
-  const budgetAllocations = {
-    housing: 0.3, // 30% of income
-    transportation: 0.15,
-    food: 0.15,
-    utilities: 0.1,
-    entertainment: 0.05,
-    healthcare: 0.05,
-    shopping: 0.05,
-    personal: 0.05,
-    debt: 0.05,
-    other: 0.05,
-  }
+  useEffect(() => {
+    const fetchBudgetAllocations = async () => {
+      try {
+        setIsLoading(true)
+        // Get current month in YYYY-MM format
+        const now = new Date()
+        const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+        
+        const response = await fetch(`/api/finance/budget-allocation?month=${currentMonth}`)
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch budget allocations')
+        }
+        
+        const data = await response.json()
+        
+        // Convert array of allocations to an object keyed by category
+        const allocationsObject = data.budgetAllocations.reduce((acc: { [x: string]: number }, allocation: { category: string | number; percentage: number }) => {
+          acc[allocation.category] = allocation.percentage / 100
+          return acc
+        }, {})
+        
+        setBudgetAllocations(allocationsObject)
+      } catch (err: any) {
+        setError(err.message)
+        console.error("Error fetching budget allocations:", err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
 
-  // Calculate budget amounts based on income
+    fetchBudgetAllocations()
+  }, []) // Empty dependency array means this runs once on mount
+
+  // Calculate budget amounts based on income and allocations from API
   const budgetAmounts = Object.entries(budgetAllocations).reduce(
     (acc, [category, percentage]) => {
-      acc[category as keyof typeof budgetAllocations] = monthlyIncome * percentage
+      acc[category] = monthlyIncome * (percentage as number)
       return acc
     },
-    {} as Record<keyof typeof budgetAllocations, number>,
+    {} as Record<string, number>,
   )
 
   // Prepare data for display
   const budgetCategories = expenseCategories.map(({ value, label }) => {
-    const budgeted = budgetAmounts[value as keyof typeof budgetAllocations] || 0
+    const budgeted = budgetAmounts[value] || 0
     const spent = expensesByCategory[value as keyof typeof expensesByCategory] || 0
     const remaining = budgeted - spent
     const percentage = budgeted > 0 ? (spent / budgeted) * 100 : 0
@@ -48,11 +71,38 @@ export function BudgetOverview() {
     }
   })
 
+  // If loading, show loading state
+  if (isLoading) {
+    return (
+      <div className="p-6 bg-gray-800/30 rounded-lg border border-gray-700/50 text-center text-gray-400">
+        Loading budget allocations...
+      </div>
+    )
+  }
+
+  // If error, show error state
+  if (error) {
+    return (
+      <div className="p-6 bg-red-900/20 rounded-lg border border-red-900/50 text-center text-red-400">
+        Error loading budget allocations: {error}
+      </div>
+    )
+  }
+
   // If no income, show placeholder
   if (monthlyIncome === 0) {
     return (
       <div className="p-6 bg-gray-800/30 rounded-lg border border-gray-700/50 text-center text-gray-400">
         Add your monthly income to see budget allocations.
+      </div>
+    )
+  }
+
+  // If no allocations found, show message
+  if (Object.keys(budgetAllocations).length === 0) {
+    return (
+      <div className="p-6 bg-gray-800/30 rounded-lg border border-gray-700/50 text-center text-gray-400">
+        No budget allocations found. Please set up your budget allocations.
       </div>
     )
   }
@@ -97,4 +147,3 @@ export function BudgetOverview() {
     </div>
   )
 }
-

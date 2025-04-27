@@ -3,9 +3,17 @@ import { verify } from "jsonwebtoken"
 import { User } from "./models/user"
 import { connectToDatabase } from "./mongodb"
 
-export type AuthUser = {
+export interface AuthUser {
   id: string
+  name?: string
   email: string
+  image?: string
+  phone?: string
+  address?: string
+  city?: string
+  state?: string
+  zipCode?: string
+  country?: string
 }
 
 export async function getAuthUser(): Promise<AuthUser | null> {

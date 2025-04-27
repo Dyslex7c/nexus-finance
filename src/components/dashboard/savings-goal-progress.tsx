@@ -81,9 +81,8 @@ export function SavingsGoalProgress() {
           <PlusCircle className="mr-2 h-4 w-4" /> Create Your First Savings Goal
         </Button>
         <CreateGoalDialog
-          isOpen={createGoalDialogOpen}
-          onClose={() => setCreateGoalDialogOpen(false)}
-          onCreateGoal={createSavingsGoal}
+          open={createGoalDialogOpen}
+          onOpenChange={() => setCreateGoalDialogOpen(false)}
         />
       </div>
     )
@@ -187,9 +186,8 @@ export function SavingsGoalProgress() {
 
       {/* Create Goal Dialog */}
       <CreateGoalDialog
-        isOpen={createGoalDialogOpen}
-        onClose={() => setCreateGoalDialogOpen(false)}
-        onCreateGoal={createSavingsGoal}
+        open={createGoalDialogOpen}
+        onOpenChange={() => setCreateGoalDialogOpen(false)}
       />
     </div>
   )
