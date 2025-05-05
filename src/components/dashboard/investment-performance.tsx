@@ -14,24 +14,28 @@ interface PerformanceData {
 export function InvestmentPerformance() {
   const [performanceData, setPerformanceData] = useState<PerformanceData[]>([])
   const [loading, setLoading] = useState(true)
-  const [timeframe, setTimeframe] = useState("1M")
+  const [timeframe, setTimeframe] = useState("1m")
 
   useEffect(() => {
     async function fetchPerformanceData() {
       try {
-        const response = await fetch(`/api/finance/investments/performance?timeframe=${timeframe}`)
+        setLoading(true)
+        const response = await fetch(`/api/finance/investments/performance?timeframe=${timeframe.toLowerCase()}`)
 
         if (!response.ok) {
           throw new Error("Failed to fetch investment performance data")
         }
 
         const data = await response.json()
-        setPerformanceData(data)
+
+        if (Array.isArray(data) && data.length > 0) {
+          setPerformanceData(data)
+        } else {
+          setPerformanceData([])
+        }
       } catch (error) {
         console.error("Error fetching investment performance:", error)
-        // Generate sample data if API fails
-        const sampleData = generateSampleData(timeframe)
-        setPerformanceData(sampleData)
+        setPerformanceData([])
       } finally {
         setLoading(false)
       }
@@ -124,19 +128,34 @@ export function InvestmentPerformance() {
           <CardTitle className="text-lg font-medium text-white">Investment Performance</CardTitle>
           <Tabs value={timeframe} onValueChange={setTimeframe} className="w-auto">
             <TabsList className="bg-gray-800">
-              <TabsTrigger value="1W" className="data-[state=active]:bg-white text-white data-[state=active]:text-white">
+              <TabsTrigger
+                value="1w"
+                className="data-[state=active]:bg-white text-white data-[state=active]:text-white"
+              >
                 1W
               </TabsTrigger>
-              <TabsTrigger value="1M" className="data-[state=active]:bg-white text-white data-[state=active]:text-white">
+              <TabsTrigger
+                value="1m"
+                className="data-[state=active]:bg-white text-white data-[state=active]:text-white"
+              >
                 1M
               </TabsTrigger>
-              <TabsTrigger value="3M" className="data-[state=active]:bg-white text-white data-[state=active]:text-white">
+              <TabsTrigger
+                value="3m"
+                className="data-[state=active]:bg-white text-white data-[state=active]:text-white"
+              >
                 3M
               </TabsTrigger>
-              <TabsTrigger value="1Y" className="data-[state=active]:bg-white text-white data-[state=active]:text-white">
+              <TabsTrigger
+                value="1y"
+                className="data-[state=active]:bg-white text-white data-[state=active]:text-white"
+              >
                 1Y
               </TabsTrigger>
-              <TabsTrigger value="ALL" className="data-[state=active]:bg-white text-white data-[state=active]:text-white">
+              <TabsTrigger
+                value="all"
+                className="data-[state=active]:bg-white text-white data-[state=active]:text-white"
+              >
                 ALL
               </TabsTrigger>
             </TabsList>
@@ -146,6 +165,12 @@ export function InvestmentPerformance() {
       <CardContent>
         {loading ? (
           <div className="h-[300px] bg-gray-800/50 animate-pulse rounded-md"></div>
+        ) : performanceData.length === 0 ? (
+          <div className="h-[300px] flex items-center justify-center">
+            <p className="text-gray-400 text-center">
+              No investment performance data available. Add investments to track performance over time.
+            </p>
+          </div>
         ) : (
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">

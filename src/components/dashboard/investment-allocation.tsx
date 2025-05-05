@@ -17,24 +17,24 @@ export function InvestmentAllocation() {
   useEffect(() => {
     async function fetchAllocationData() {
       try {
-        const response = await fetch("/api/finance/investments/allocation")
+        setLoading(true)
+        const response = await fetch("/api/finance/investments/allocations")
 
         if (!response.ok) {
           throw new Error("Failed to fetch investment allocation data")
         }
 
         const data = await response.json()
-        setAllocationData(data)
+
+        if (Array.isArray(data) && data.length > 0) {
+          setAllocationData(data)
+        } else {
+          // Empty or no investments - set an empty array
+          setAllocationData([])
+        }
       } catch (error) {
         console.error("Error fetching investment allocation:", error)
-        // Set sample data if API fails
-        setAllocationData([
-          { name: "Stocks", value: 65, color: "#06B6D4" },
-          { name: "Bonds", value: 15, color: "#A855F7" },
-          { name: "Cash", value: 10, color: "#22C55E" },
-          { name: "Real Estate", value: 5, color: "#EAB308" },
-          { name: "Crypto", value: 5, color: "#EC4899" },
-        ])
+        setAllocationData([])
       } finally {
         setLoading(false)
       }
@@ -80,6 +80,12 @@ export function InvestmentAllocation() {
       <CardContent>
         {loading ? (
           <div className="h-[250px] bg-gray-800/50 animate-pulse rounded-md"></div>
+        ) : allocationData.length === 0 ? (
+          <div className="h-[250px] flex items-center justify-center">
+            <p className="text-gray-400 text-center">
+              No investment data available. Add investments to see your allocation.
+            </p>
+          </div>
         ) : (
           <div className="h-[250px]">
             <ResponsiveContainer width="100%" height="100%">

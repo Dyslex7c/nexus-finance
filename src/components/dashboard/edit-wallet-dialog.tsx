@@ -1,9 +1,7 @@
 "use client"
 
-import type React from "react"
-
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import type { FormEvent, ChangeEvent } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -29,32 +27,42 @@ interface EditWalletDialogProps {
   onSuccess?: () => void
 }
 
+interface FormData {
+  name: string
+  balance: number | string
+  currency: string
+  type: string
+  color: string
+  isDefault: boolean
+}
+
+// Ensure the EditWalletDialog properly handles the wallet data
 export function EditWalletDialog({ open, onOpenChange, wallet, onSuccess }: EditWalletDialogProps) {
-  const router = useRouter()
-  const [loading, setLoading] = useState(false)
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
-    balance: "",
+    balance: 0,
     currency: "USD",
     type: "checking",
     color: "#06b6d4",
     isDefault: false,
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
+  // Update form data when wallet changes
   useEffect(() => {
     if (wallet) {
       setFormData({
-        name: wallet.name,
-        balance: wallet.balance.toString(),
-        currency: wallet.currency,
-        type: wallet.type,
-        color: wallet.color,
-        isDefault: wallet.isDefault,
+        name: wallet.name || "",
+        balance: wallet.balance || 0,
+        currency: wallet.currency || "USD",
+        type: wallet.type || "checking",
+        color: wallet.color || "#06b6d4",
+        isDefault: wallet.isDefault || false,
       })
     }
   }, [wallet])
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
@@ -67,9 +75,9 @@ export function EditWalletDialog({ open, onOpenChange, wallet, onSuccess }: Edit
     setFormData((prev) => ({ ...prev, isDefault: checked }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setLoading(true)
+    setIsSubmitting(true)
 
     try {
       const response = await fetch(`/api/finance/wallets/${wallet.id}`, {
@@ -78,12 +86,8 @@ export function EditWalletDialog({ open, onOpenChange, wallet, onSuccess }: Edit
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: formData.name,
-          balance: Number.parseFloat(formData.balance),
-          currency: formData.currency,
-          type: formData.type,
-          color: formData.color,
-          isDefault: formData.isDefault,
+          ...formData,
+          balance: typeof formData.balance === "string" ? Number.parseFloat(formData.balance) : formData.balance,
         }),
       })
 
@@ -94,23 +98,15 @@ export function EditWalletDialog({ open, onOpenChange, wallet, onSuccess }: Edit
       toast.success("Wallet updated successfully")
       onOpenChange(false)
 
-      // Refresh data
-      if (onSuccess) {
+      // Call the onSuccess callback to refresh the wallets list
+      if (typeof onSuccess === "function") {
         onSuccess()
-      } else {
-        router.refresh()
       }
     } catch (error) {
       console.error("Error updating wallet:", error)
       toast.error("Failed to update wallet")
-
-      // For demo purposes, close dialog and refresh anyway
-      onOpenChange(false)
-      if (onSuccess) {
-        onSuccess()
-      }
     } finally {
-      setLoading(false)
+      setIsSubmitting(false)
     }
   }
 
@@ -234,8 +230,8 @@ export function EditWalletDialog({ open, onOpenChange, wallet, onSuccess }: Edit
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={loading} className="bg-cyan-600 hover:bg-cyan-700 text-white">
-              {loading ? "Updating..." : "Update Wallet"}
+            <Button type="submit" disabled={isSubmitting} className="bg-cyan-600 hover:bg-cyan-700 text-white">
+              {isSubmitting ? "Updating..." : "Update Wallet"}
             </Button>
           </DialogFooter>
         </form>

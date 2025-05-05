@@ -5,6 +5,7 @@ import { Plus, ArrowUp, ArrowDown, Trash2, Edit } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { AddInvestmentDialog } from "./add-investment-dialog"
+import { EditInvestmentDialog } from "./edit-investment-dialog"
 import { toast } from "sonner"
 
 interface Investment {
@@ -23,7 +24,9 @@ interface Investment {
 export function InvestmentPortfolio() {
   const [investments, setInvestments] = useState<Investment[]>([])
   const [loading, setLoading] = useState(true)
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const [addDialogOpen, setAddDialogOpen] = useState(false)
+  const [editDialogOpen, setEditDialogOpen] = useState(false)
+  const [selectedInvestmentId, setSelectedInvestmentId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchInvestments()
@@ -46,6 +49,11 @@ export function InvestmentPortfolio() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleEditInvestment = (id: string) => {
+    setSelectedInvestmentId(id)
+    setEditDialogOpen(true)
   }
 
   const deleteInvestment = async (id: string) => {
@@ -71,6 +79,8 @@ export function InvestmentPortfolio() {
   }
 
   const formatCurrency = (amount: number) => {
+    if (isNaN(amount) || amount === undefined) return "$0.00"
+
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
@@ -80,20 +90,29 @@ export function InvestmentPortfolio() {
   }
 
   const calculateTotalValue = () => {
+    if (!investments.length) return 0
+
     return investments.reduce((total, investment) => {
-      return total + investment.shares * investment.currentPrice
+      const value = investment.shares * investment.currentPrice
+      return total + (isNaN(value) ? 0 : value)
     }, 0)
   }
 
   const calculateTotalGainLoss = () => {
+    if (!investments.length) return 0
+
     return investments.reduce((total, investment) => {
-      return total + investment.shares * (investment.currentPrice - investment.purchasePrice)
+      const gainLoss = investment.shares * (investment.currentPrice - investment.purchasePrice)
+      return total + (isNaN(gainLoss) ? 0 : gainLoss)
     }, 0)
   }
 
   const calculateTotalGainLossPercent = () => {
+    if (!investments.length) return 0
+
     const totalInvested = investments.reduce((total, investment) => {
-      return total + investment.shares * investment.purchasePrice
+      const invested = investment.shares * investment.purchasePrice
+      return total + (isNaN(invested) ? 0 : invested)
     }, 0)
 
     const totalCurrent = calculateTotalValue()
@@ -106,7 +125,7 @@ export function InvestmentPortfolio() {
     <Card className="bg-gray-900/50 border-gray-800">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-lg font-medium text-white">Investment Portfolio</CardTitle>
-        <Button size="sm" onClick={() => setDialogOpen(true)} className="bg-cyan-600 hover:bg-cyan-700 text-white">
+        <Button size="sm" onClick={() => setAddDialogOpen(true)} className="bg-cyan-600 hover:bg-cyan-700 text-white">
           <Plus className="h-4 w-4 mr-1" /> Add Investment
         </Button>
       </CardHeader>
@@ -119,7 +138,7 @@ export function InvestmentPortfolio() {
         ) : investments.length === 0 ? (
           <div className="text-center py-12 border border-gray-800 rounded-md">
             <p className="text-gray-400 mb-4">You don't have any investments yet.</p>
-            <Button onClick={() => setDialogOpen(true)} className="bg-cyan-600 hover:bg-cyan-700 text-white">
+            <Button onClick={() => setAddDialogOpen(true)} className="bg-cyan-600 hover:bg-cyan-700 text-white">
               <Plus className="h-4 w-4 mr-1" /> Add Your First Investment
             </Button>
           </div>
@@ -191,7 +210,12 @@ export function InvestmentPortfolio() {
                       </td>
                       <td className="py-3 px-4 text-right">
                         <div className="flex justify-end space-x-1">
-                          <Button variant="ghost" size="icon" className="h-7 w-7 text-gray-400 hover:text-white">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7 text-gray-400 hover:text-white"
+                            onClick={() => handleEditInvestment(investment.id)}
+                          >
                             <Edit className="h-4 w-4" />
                           </Button>
                           <Button
@@ -212,7 +236,12 @@ export function InvestmentPortfolio() {
           </>
         )}
       </CardContent>
-      <AddInvestmentDialog open={dialogOpen} onOpenChange={setDialogOpen} />
+      <AddInvestmentDialog open={addDialogOpen} onOpenChange={setAddDialogOpen} />
+      <EditInvestmentDialog
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        investmentId={selectedInvestmentId}
+      />
     </Card>
   )
 }

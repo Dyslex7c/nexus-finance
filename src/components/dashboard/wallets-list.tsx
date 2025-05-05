@@ -78,11 +78,14 @@ export function WalletsList() {
     }
   }
 
+  // Improve the handleEditWallet function to ensure the wallet data is properly passed
   const handleEditWallet = (wallet: WalletProps) => {
-    setSelectedWallet(wallet)
+    // Create a deep copy to avoid reference issues
+    setSelectedWallet({ ...wallet })
     setEditDialogOpen(true)
   }
 
+  // Fix the deleteWallet function to properly handle API responses
   const deleteWallet = async (id: string) => {
     if (!confirm("Are you sure you want to delete this wallet?")) {
       return
@@ -91,20 +94,21 @@ export function WalletsList() {
     try {
       const response = await fetch(`/api/finance/wallets/${id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
 
       if (!response.ok) {
         throw new Error("Failed to delete wallet")
       }
 
+      // Update local state immediately on success
+      setWallets(wallets.filter((wallet) => wallet.id !== id))
       toast.success("Wallet deleted successfully")
-      fetchWallets()
     } catch (error) {
       console.error("Error deleting wallet:", error)
       toast.error("Failed to delete wallet")
-
-      // If API fails, remove from local state
-      setWallets(wallets.filter((wallet) => wallet.id !== id))
     }
   }
 
