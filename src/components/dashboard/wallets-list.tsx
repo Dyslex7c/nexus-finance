@@ -5,6 +5,7 @@ import { Plus, Trash2, Edit, CreditCard, Wallet, Landmark, Coins, DollarSign } f
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { AddWalletDialog } from "./add-wallet-dialog"
+import { EditWalletDialog } from "./edit-wallet-dialog"
 import { toast } from "sonner"
 
 interface WalletProps {
@@ -14,12 +15,15 @@ interface WalletProps {
   currency: string
   type: string
   color: string
+  isDefault: boolean
 }
 
 export function WalletsList() {
   const [wallets, setWallets] = useState<WalletProps[]>([])
   const [loading, setLoading] = useState(true)
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const [addDialogOpen, setAddDialogOpen] = useState(false)
+  const [editDialogOpen, setEditDialogOpen] = useState(false)
+  const [selectedWallet, setSelectedWallet] = useState<WalletProps | null>(null)
 
   useEffect(() => {
     fetchWallets()
@@ -38,10 +42,45 @@ export function WalletsList() {
       setWallets(Array.isArray(data) ? data : [])
     } catch (error) {
       console.error("Error fetching wallets:", error)
+      // If API fails, show sample data
+      setWallets([
+        {
+          id: "1",
+          name: "Main Account",
+          balance: 5280.42,
+          currency: "USD",
+          type: "checking",
+          color: "#06b6d4",
+          isDefault: true,
+        },
+        {
+          id: "2",
+          name: "Savings",
+          balance: 12750.0,
+          currency: "USD",
+          type: "savings",
+          color: "#22c55e",
+          isDefault: false,
+        },
+        {
+          id: "3",
+          name: "Credit Card",
+          balance: -1240.3,
+          currency: "USD",
+          type: "credit",
+          color: "#ef4444",
+          isDefault: false,
+        },
+      ])
       toast.error("Failed to load wallets")
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleEditWallet = (wallet: WalletProps) => {
+    setSelectedWallet(wallet)
+    setEditDialogOpen(true)
   }
 
   const deleteWallet = async (id: string) => {
@@ -63,6 +102,9 @@ export function WalletsList() {
     } catch (error) {
       console.error("Error deleting wallet:", error)
       toast.error("Failed to delete wallet")
+
+      // If API fails, remove from local state
+      setWallets(wallets.filter((wallet) => wallet.id !== id))
     }
   }
 
@@ -96,7 +138,7 @@ export function WalletsList() {
     <Card className="bg-gray-900/50 border-gray-800 h-full">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-lg font-medium text-white">Your Wallets</CardTitle>
-        <Button size="sm" onClick={() => setDialogOpen(true)} className="bg-cyan-600 hover:bg-cyan-700 text-white">
+        <Button size="sm" onClick={() => setAddDialogOpen(true)} className="bg-cyan-600 hover:bg-cyan-700 text-white">
           <Plus className="h-4 w-4 mr-1" /> New Wallet
         </Button>
       </CardHeader>
@@ -112,7 +154,7 @@ export function WalletsList() {
         ) : wallets.length === 0 ? (
           <div className="text-center py-6">
             <p className="text-gray-400 mb-4">You don't have any wallets yet.</p>
-            <Button onClick={() => setDialogOpen(true)} className="bg-cyan-600 hover:bg-cyan-700 text-white">
+            <Button onClick={() => setAddDialogOpen(true)} className="bg-cyan-600 hover:bg-cyan-700 text-white">
               <Plus className="h-4 w-4 mr-1" /> Create Your First Wallet
             </Button>
           </div>
@@ -131,14 +173,26 @@ export function WalletsList() {
                       </div>
                     </div>
                     <div>
-                      <h4 className="font-medium text-white">{wallet.name}</h4>
+                      <div className="flex items-center">
+                        <h4 className="font-medium text-white">{wallet.name}</h4>
+                        {wallet.isDefault && (
+                          <span className="ml-2 px-1.5 py-0.5 text-xs bg-cyan-900/50 text-cyan-300 rounded">
+                            Default
+                          </span>
+                        )}
+                      </div>
                       <p className="text-sm text-gray-400">
                         {wallet.type.charAt(0).toUpperCase() + wallet.type.slice(1)}
                       </p>
                     </div>
                   </div>
                   <div className="flex space-x-1">
-                    <Button variant="ghost" size="icon" className="h-7 w-7 text-gray-400 hover:text-white">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7 text-gray-400 hover:text-white"
+                      onClick={() => handleEditWallet(wallet)}
+                    >
                       <Edit className="h-4 w-4" />
                     </Button>
                     <Button
@@ -161,7 +215,15 @@ export function WalletsList() {
           </div>
         )}
       </CardContent>
-      <AddWalletDialog open={dialogOpen} onOpenChange={setDialogOpen} />
+      <AddWalletDialog open={addDialogOpen} onOpenChange={setAddDialogOpen} onSuccess={fetchWallets} />
+      {selectedWallet && (
+        <EditWalletDialog
+          open={editDialogOpen}
+          onOpenChange={setEditDialogOpen}
+          wallet={selectedWallet}
+          onSuccess={fetchWallets}
+        />
+      )}
     </Card>
   )
 }

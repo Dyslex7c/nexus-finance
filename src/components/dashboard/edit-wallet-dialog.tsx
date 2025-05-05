@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -12,13 +12,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { toast } from "sonner"
 
-interface AddWalletDialogProps {
+interface WalletProps {
+  id: string
+  name: string
+  balance: number
+  currency: string
+  type: string
+  color: string
+  isDefault: boolean
+}
+
+interface EditWalletDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
+  wallet: WalletProps
   onSuccess?: () => void
 }
 
-export function AddWalletDialog({ open, onOpenChange, onSuccess }: AddWalletDialogProps) {
+export function EditWalletDialog({ open, onOpenChange, wallet, onSuccess }: EditWalletDialogProps) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -26,9 +37,22 @@ export function AddWalletDialog({ open, onOpenChange, onSuccess }: AddWalletDial
     balance: "",
     currency: "USD",
     type: "checking",
-    color: "#06b6d4", // Default cyan color
+    color: "#06b6d4",
     isDefault: false,
   })
+
+  useEffect(() => {
+    if (wallet) {
+      setFormData({
+        name: wallet.name,
+        balance: wallet.balance.toString(),
+        currency: wallet.currency,
+        type: wallet.type,
+        color: wallet.color,
+        isDefault: wallet.isDefault,
+      })
+    }
+  }, [wallet])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -48,8 +72,8 @@ export function AddWalletDialog({ open, onOpenChange, onSuccess }: AddWalletDial
     setLoading(true)
 
     try {
-      const response = await fetch("/api/finance/wallets", {
-        method: "POST",
+      const response = await fetch(`/api/finance/wallets/${wallet.id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -64,21 +88,11 @@ export function AddWalletDialog({ open, onOpenChange, onSuccess }: AddWalletDial
       })
 
       if (!response.ok) {
-        throw new Error("Failed to add wallet")
+        throw new Error("Failed to update wallet")
       }
 
-      toast.success("Wallet added successfully")
+      toast.success("Wallet updated successfully")
       onOpenChange(false)
-
-      // Reset form
-      setFormData({
-        name: "",
-        balance: "",
-        currency: "USD",
-        type: "checking",
-        color: "#06b6d4",
-        isDefault: false,
-      })
 
       // Refresh data
       if (onSuccess) {
@@ -87,8 +101,8 @@ export function AddWalletDialog({ open, onOpenChange, onSuccess }: AddWalletDial
         router.refresh()
       }
     } catch (error) {
-      console.error("Error adding wallet:", error)
-      toast.error("Failed to add wallet")
+      console.error("Error updating wallet:", error)
+      toast.error("Failed to update wallet")
 
       // For demo purposes, close dialog and refresh anyway
       onOpenChange(false)
@@ -114,7 +128,7 @@ export function AddWalletDialog({ open, onOpenChange, onSuccess }: AddWalletDial
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-gray-900 border-gray-800 text-white sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold text-white">Add New Wallet</DialogTitle>
+          <DialogTitle className="text-xl font-semibold text-white">Edit Wallet</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
@@ -132,7 +146,7 @@ export function AddWalletDialog({ open, onOpenChange, onSuccess }: AddWalletDial
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="balance">Initial Balance</Label>
+              <Label htmlFor="balance">Balance</Label>
               <Input
                 id="balance"
                 name="balance"
@@ -221,7 +235,7 @@ export function AddWalletDialog({ open, onOpenChange, onSuccess }: AddWalletDial
               Cancel
             </Button>
             <Button type="submit" disabled={loading} className="bg-cyan-600 hover:bg-cyan-700 text-white">
-              {loading ? "Adding..." : "Add Wallet"}
+              {loading ? "Updating..." : "Update Wallet"}
             </Button>
           </DialogFooter>
         </form>
